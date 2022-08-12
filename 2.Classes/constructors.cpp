@@ -4,32 +4,33 @@
 class Complex
 {
 	public:
-		/* Using member initialization lists */ 
-		//Complex(): r(0), i(0) {}
-		//Complex(double r, double i): r(r), i(i) {}
-		//Complex(double r) : r(r), i(0) {}    // real part only
-		
-		/* Three constructors written as one */ 
-		Complex(double r=0, double i=0): r(r), i(i) {}
+		/* Delegating constructors */
+		Complex(double r, double i): r{r}, i{i} {}    // they call this one
+		Complex(double r): Complex{r, 0.0} {}
+		Complex(): Complex{0.0} {}
+		Complex(const Complex& c): r(c.r), i(c.i) {}  // copy constructor
 		double get_r(){return r;}
+		double get_i(){return i;}
+		void print_Complex(){
+			std::cout << r << " + " << i << std::endl;
+		}
 	private:
-		double r{}, i{};
+		double r{0.0}, i{0.0};
 };
 
 int main()
 {
-	Complex z1;    // default constructed
-	Complex z2(4) ;    // 4 + 0i
-	Complex z3 = 4;    // 4 + 0i
-	Complex z4(0, 1);  // 0 + 1i	
+	Complex z1(3.0, 2.0);    // default constructed
+	Complex z2{z1};    // invoke copy constructor to copy members
 			  
-	/* TO DO: Finish this later */
-	/* Also, test with valgrind when possible */ 
+	// see if it initialized correctly 
 	Complex* z1_ptr = &z1;
-	std::cout << "z1 = " << z1_ptr->get_r() << std::endl;
-	
+	std::cout << "z1 = "; z1_ptr->print_Complex();
 
-	
+	// see if it copied correctly
+	std::cout << "z2 = "; z2.print_Complex();
 
+	// use one of delegating constructors and see if it works 
+	Complex z3{};
+	std::cout << "z3 = "; z3.print_Complex();
 }
-
