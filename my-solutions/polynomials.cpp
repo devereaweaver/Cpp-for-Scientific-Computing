@@ -1,8 +1,7 @@
 /* polynomials.cpp - begin to implement a class for poloynomials
- * - Devere Anthony Weaver
- *
- *   TO DO: Consider implementing different ways to construct Polynomial object
+ * By: Devere Anthony Weaver
  */
+
 #include <iostream>
 #include<vector>
 
@@ -14,8 +13,24 @@ class Polynomial
 			for (int i{}; i < nums.size(); ++i)    // init coeff array
 				coefficients[i] = nums[i]; 
 		}
-
+		Polynomial(const Polynomial& p): size{p.getSize()}, coefficients{new double[size]}  // copy constructor
+		{
+			std::cout << "Copy constructor used!!!" << std::endl;
+			for (int i{}; i < size; ++i)
+				coefficients[i] = p.coefficients[i];
+		}  
+		Polynomial& operator=(Polynomial&& psrc)    // move assignment
+		{
+			std::cout << "Move assignment used!!!" << std::endl;
+			assert(size == psrc.size);
+			delete[] coefficients;    // remove whatever is here
+			coefficients = psrc.coefficients;    // steal coefficients
+			psrc.coefficients = nullptr;    // null source data
+			psrc.size = 0;
+			return *this;
+		}
 		~Polynomial(){delete[] coefficients;}
+
 
 		double* getCoefficients() const {return coefficients;}
 		unsigned getSize() const {return size;}
@@ -38,10 +53,28 @@ std::ostream& operator<<(std::ostream& os, const Polynomial& p)
 	return os;
 }
 
+
+Polynomial f(double c2, double c1, double c0)
+{
+	/* used to test movement assignment */
+	std::vector<double> v{c2, c1, c0};
+	Polynomial p(v, v.size());
+	return p;
+}
+
 int main()
 {
 	std::vector<double> values{1, 2, 3, 4, 5};
 	Polynomial p(values, values.size());
 	std::cout << "Polynomial: " <<  p << std::endl;
+
+	// Test move assignment and copy constructor 
+	std::vector<double> v{9, 8, 7};
+	Polynomial h(v, 3);	
+	std::cout << "\nPolynomial h: " << h << std::endl;
+	Polynomial q(h);    // copy constructor
+	std::cout << "\nPolynomial q (before move assignment): " << q << std::endl;
+	q = f(6, 5, 4);    // move assignment
+	std::cout << "\nPolynomial q (after move assignment): " << q << std::endl;
 }
 
