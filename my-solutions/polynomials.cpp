@@ -9,35 +9,35 @@
 class Polynomial
 {
 	public:
-		Polynomial(const std::vector<double>& nums, unsigned n): size{n}, coefficients{new double[size]}
+		Polynomial(const std::vector<double>& nums, unsigned n): degree{n}, coefficients{new double[degree]}
 	       	{
 			for (int i{}; i < nums.size(); ++i)    // init coeff array
 				coefficients[i] = nums[i]; 
 		}
-		Polynomial(const Polynomial& p): size{p.getSize()}, coefficients{new double[size]}  // copy constructor
+		Polynomial(const Polynomial& p): degree{p.getSize()}, coefficients{new double[degree]}  // copy constructor
 		{
 			std::cout << "Copy constructor used!!!" << std::endl;
-			for (int i{}; i < size; ++i)
+			for (int i{}; i < degree; ++i)
 				coefficients[i] = p.coefficients[i];
 		}  
 		Polynomial& operator=(Polynomial&& psrc)    // move assignment
 		{
 			std::cout << "Move assignment used!!!" << std::endl;
-			assert(size == psrc.size);
+			assert(degree == psrc.degree);
 			delete[] coefficients;    // remove whatever is here
 			coefficients = psrc.coefficients;    // steal coefficients
 			psrc.coefficients = nullptr;    // null source data
-			psrc.size = 0;
+			psrc.degree = 0;
 			return *this;
 		}
 		~Polynomial(){delete[] coefficients;}
 
 
 		double* getCoefficients() const {return coefficients;}
-		unsigned getSize() const {return size;}
+		unsigned getSize() const {return degree;}
 
 	private:
-		unsigned size{};    // # coefficients
+		unsigned degree{};    // # coefficients
 		double* coefficients{nullptr};
 };
 
