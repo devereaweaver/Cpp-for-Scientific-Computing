@@ -11,7 +11,7 @@ class Polynomial
 	public:
 		Polynomial(const std::vector<double>& nums, unsigned n): degree{n}, coefficients{new double[degree]}
 	       	{
-			for (int i{}; i < nums.size(); ++i)    // init coeff array
+			for (int i{}; i < nums.size(); ++i)    
 				coefficients[i] = nums[i]; 
 		}
 		Polynomial(const Polynomial& p): degree{p.getSize()}, coefficients{new double[degree]}  // copy constructor
@@ -31,8 +31,6 @@ class Polynomial
 			return *this;
 		}
 		~Polynomial(){delete[] coefficients;}
-
-
 		double* getCoefficients() const {return coefficients;}
 		unsigned getSize() const {return degree;}
 
@@ -41,7 +39,7 @@ class Polynomial
 		double* coefficients{nullptr};
 };
 
-std::ostream& operator<<(std::ostream& os, const Polynomial& p)
+std::ostream& operator<<(std::ostream& os, const Polynomial& p)    // output for Polynomial
 {
 	const double* coeff_ptr = p.getCoefficients();
 	for (int x{}; x < p.getSize(); ++x)
