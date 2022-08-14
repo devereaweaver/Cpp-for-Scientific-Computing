@@ -30,6 +30,8 @@ class Polynomial
 			psrc.degree = 0;
 			return *this;
 		}
+
+		// TO DO: Add overload operator for polynomial arithmetic
 		~Polynomial(){delete[] coefficients;}
 		double* getCoefficients() const {return coefficients;}
 		unsigned getSize() const {return degree;}
