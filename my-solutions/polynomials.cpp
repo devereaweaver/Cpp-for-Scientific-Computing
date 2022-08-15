@@ -41,6 +41,26 @@ class Polynomial
 		double* coefficients{nullptr};
 };
 
+std::ostream& operator<<(std::ostream& os, const Polynomial& p);
+Polynomial f(double c2, double c1, double c0);
+
+
+int main()
+{
+	std::vector<double> values{1, 2, 3, 4, 5};
+	Polynomial p(values, values.size());
+	std::cout << "Polynomial: " <<  p << std::endl;
+
+	// Test move assignment and copy constructor 
+	std::vector<double> v{9, 8, 7};
+	Polynomial h(v, 3);	
+	std::cout << "\nPolynomial h: " << h << std::endl;
+	Polynomial q(h);    // copy constructor
+	std::cout << "\nPolynomial q (before move assignment): " << q << std::endl;
+	q = f(6, 5, 4);    // move assignment
+	std::cout << "\nPolynomial q (after move assignment): " << q << std::endl;
+}
+
 std::ostream& operator<<(std::ostream& os, const Polynomial& p)    // output for Polynomial
 {
 	const double* coeff_ptr = p.getCoefficients();
@@ -61,21 +81,5 @@ Polynomial f(double c2, double c1, double c0)
 	std::vector<double> v{c2, c1, c0};
 	Polynomial p(v, v.size());
 	return p;
-}
-
-int main()
-{
-	std::vector<double> values{1, 2, 3, 4, 5};
-	Polynomial p(values, values.size());
-	std::cout << "Polynomial: " <<  p << std::endl;
-
-	// Test move assignment and copy constructor 
-	std::vector<double> v{9, 8, 7};
-	Polynomial h(v, 3);	
-	std::cout << "\nPolynomial h: " << h << std::endl;
-	Polynomial q(h);    // copy constructor
-	std::cout << "\nPolynomial q (before move assignment): " << q << std::endl;
-	q = f(6, 5, 4);    // move assignment
-	std::cout << "\nPolynomial q (after move assignment): " << q << std::endl;
 }
 
