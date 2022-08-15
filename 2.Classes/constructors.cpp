@@ -9,10 +9,19 @@ class Complex
 		Complex(double r): Complex{r, 0.0} {}
 		Complex(): Complex{0.0} {}
 		Complex(const Complex& c): r(c.r), i(c.i) {}  // copy constructor
+		Complex& operator=(const Complex& src)    // assignment operator
+		{
+			r=src.r; i=src.i;
+			return *this;
+		}
 		double get_r(){return r;}
 		double get_i(){return i;}
 		void print_Complex(){
 			std::cout << r << " + " << i << std::endl;
+		}
+		~Complex()    // unecessary destructor
+		{
+			std::cout << "So long and thanks for the fish.\n";
 		}
 	private:
 		double r{0.0}, i{0.0};
